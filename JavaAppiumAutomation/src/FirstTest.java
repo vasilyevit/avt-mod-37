@@ -10,8 +10,10 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URL;
+import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 
 public class FirstTest {
 
@@ -128,6 +130,33 @@ public class FirstTest {
                 "We see unexpected text");
     }
 
+    @Test
+    public void testCancelSearchEx3(){
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Cannot find Search Wikipedia input",
+                5
+        );
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search…')]"),
+                "Java",
+                "Cannot find search input",
+                5
+        );
+        assertTrue(
+                "There should be several articles",
+                getElementList(By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']")).size() > 1);
+
+        waitForElementAndClick(
+                By.xpath("//*[@resource-id='org.wikipedia:id/search_close_btn']"),
+                "Cannot find X to cancel search",
+                5
+        );
+        assertEquals(
+                "Search result must be empty",
+                getElementList(By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']")).size(), 0);
+    }
+
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds){
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
         wait.withMessage(error_message + "\n");
@@ -172,5 +201,9 @@ public class FirstTest {
                 error_message,
                 expected,
                 text_value);
+    }
+
+    private List<WebElement> getElementList(By by){
+        return driver.findElements(by);
     }
 }
