@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
@@ -157,6 +158,31 @@ public class FirstTest {
                 getElementList(By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']")).size(), 0);
     }
 
+    @Test
+    public void testResultListEx4(){
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Cannot find Search Wikipedia input",
+                5
+        );
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search…')]"),
+                "Java",
+                "Cannot find search input",
+                5
+        );
+        waitForElementPresent(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']")
+                ,"Cannot find topics searching by 'Java'",
+                20
+        );
+        assertListContainsText(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@resource-id='org.wikipedia:id/page_list_item_title']"),
+                "Java",
+                "Not every search result contains this word Java");
+
+    }
+
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds){
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
         wait.withMessage(error_message + "\n");
@@ -205,5 +231,15 @@ public class FirstTest {
 
     private List<WebElement> getElementList(By by){
         return driver.findElements(by);
+    }
+
+    private void assertListContainsText(By by, String expected, String error_message){
+        List<String> titles = new ArrayList<>();
+        for (WebElement we: getElementList(by)){
+            titles.add(we.getText().toLowerCase());
+        }
+        assertTrue(
+                error_message,
+                titles.contains(expected.toLowerCase()));
     }
 }
