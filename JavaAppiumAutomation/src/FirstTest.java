@@ -540,7 +540,30 @@ public class FirstTest {
         assertEquals("The title of the article is not as expected",
                 title,
                 "Appium");
+    }
 
+    @Test
+    public void testEx6(){
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Cannot find Search Wikipedia input",
+                5
+        );
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search…')]"),
+                "Java",
+                "Cannot find search input",
+                5
+        );
+        waitForElementAndClick(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[contains(@text,'Object-oriented programming language')]"),
+                "Cannot find 'Object-oriented programming language' topic searching by 'Java'",
+                20
+        );
+        assertElementPresent(
+                By.xpath("//*[@resource-id='org.wikipedia:id/view_page_title_text']"),
+                "Article title not exist"
+        );
     }
 
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds){
@@ -675,5 +698,12 @@ public class FirstTest {
     private String waitForElementAndGetText(By by, String error_message, long timeoutInSeconds){
         WebElement element = waitForElementPresent(by,error_message,timeoutInSeconds);
         return element.getText();
+    }
+
+    private void assertElementPresent(By by, String error_message){
+        List elements = driver.findElements(by);
+        assertTrue(
+                error_message,
+                elements.size() > 0);
     }
 }
