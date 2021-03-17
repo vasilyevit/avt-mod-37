@@ -566,6 +566,47 @@ public class FirstTest {
         );
     }
 
+    @Test
+    public void textEx7() {
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Cannot find Search Wikipedia input",
+                5
+        );
+        String search_line = "java";
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search…')]"),
+                search_line,
+                "Cannot find search input",
+                5
+        );
+        waitForElementAndClick(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[contains(@text,'Object-oriented programming language')]"),
+                "Cannot find 'Object-oriented programming language' topic searching by '" + search_line + "'",
+                20
+        );
+        String title_before_rotation = waitForElementAndGetText(
+                By.xpath("//*[@resource-id='org.wikipedia:id/view_page_title_text']"),
+                "Cannot find tile of article",
+                15
+        );
+        try {
+            driver.rotate(ScreenOrientation.LANDSCAPE);
+            String title_after_rotation = waitForElementAndGetText(
+                    By.xpath("//*[@resource-id='org.wikipedia:id/view_page_title_text']"),
+                    "Cannot find tile of article",
+                    15
+            );
+            assertEquals(
+                    "Article title have been changed after screen rotation",
+                    title_before_rotation,
+                    title_after_rotation);
+        } finally {
+            driver.rotate(ScreenOrientation.PORTRAIT);
+        }
+
+    }
+
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds){
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
         wait.withMessage(error_message + "\n");
