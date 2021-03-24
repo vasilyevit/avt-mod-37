@@ -3,7 +3,6 @@ package tests;
 import lib.CoreTestCase;
 import lib.ui.SearchPageObject;
 import org.junit.Test;
-import org.openqa.selenium.By;
 
 public class SearchTests extends CoreTestCase {
 
@@ -51,5 +50,20 @@ public class SearchTests extends CoreTestCase {
         searchPageObject.typeSearchLine(search_line);
         searchPageObject.waitForEmptyResultLabel();
         searchPageObject.assertThereIsResultOfSearch();
+    }
+
+    @Test
+    public void testCancelSearchEx3(){
+        SearchPageObject searchPageObject = new SearchPageObject(driver);
+
+        searchPageObject.initSearchInput();
+        String search_line = "Java";
+        searchPageObject.typeSearchLine(search_line);
+        int amount_of_search_results = searchPageObject.getAmountOfFoundArticles();
+        assertTrue(
+                "There should be several articles",
+                amount_of_search_results > 1);
+        searchPageObject.clickCancelSearch();
+        searchPageObject.waitForResultToDisappear();
     }
 }

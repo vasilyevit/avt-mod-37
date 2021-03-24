@@ -14,11 +14,16 @@ public class ArticlePageObject extends MainPageObject {
         ADD_TO_MY_LIST_OVERLAY = "//*[@resource-id='org.wikipedia:id/onboarding_button']",
         MY_LIST_NAME_INPUT = "//*[@resource-id='org.wikipedia:id/text_input']",
         MY_LIST_OK_BUTTON = "//*[@text='OK']",
-        CLOSE_ARTICLE_BUTTON = "//android.widget.ImageButton[@content-desc='Navigate up']";
+        CLOSE_ARTICLE_BUTTON = "//android.widget.ImageButton[@content-desc='Navigate up']",
+        FOLDER_NAME_ELEMENT_TPL = "//*[@resource-id='org.wikipedia:id/item_title' and @text='{NAMEFOLDER}']";
 
 
     public ArticlePageObject(AppiumDriver driver) {
         super(driver);
+    }
+
+    private static String getFolderNameElement(String folder_name){
+        return FOLDER_NAME_ELEMENT_TPL.replace("{NAMEFOLDER}",folder_name);
     }
 
     public WebElement waitForTitleElement(){
@@ -69,10 +74,37 @@ public class ArticlePageObject extends MainPageObject {
                 5);
     }
 
+    public void addAdditionalArticleToMyList(String name_of_folder){
+        this.waitForElementAndClick(
+                By.xpath(OPTIONS_BUTTON),
+                "Cannot find button to open article options",
+                5);
+        this.waitForElementAndClick(
+                By.xpath(OPTIONS_ADD_TO_MY_LIST_BUTTON),
+                "Cannot find option 'Add to reading list'",
+                5);
+        this.changeListByFolderName(name_of_folder);
+
+    }
+
+    public void changeListByFolderName(String name_of_folder){
+        this.waitForElementAndClick(
+                By.xpath(getFolderNameElement(name_of_folder)),
+                "Cannot find created folder in reading list",
+                5);
+    }
+
     public void closeArticle(){
         this.waitForElementAndClick(
                 By.xpath(CLOSE_ARTICLE_BUTTON),
                 "Cannot close article, cannot find X link.",
                 5);
+    }
+
+    public void checkTitlePresent(){
+        assertElementPresent(
+                By.xpath(TITLE),
+                "Article title not exist"
+        );
     }
 }

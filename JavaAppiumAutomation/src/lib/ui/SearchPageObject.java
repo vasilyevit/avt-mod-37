@@ -10,7 +10,7 @@ public class SearchPageObject extends MainPageObject {
         SEARCH_INPUT = "//*[contains(@text,'Search…')]",
         SEARCH_CANCEL_BUTTON = "//*[@resource-id='org.wikipedia:id/search_close_btn']",
         SEARCH_RESULT_BY_SUBSTRING_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[contains(@text,'{SUBSTRING}')]",
-        SEARCH_RESULT_ELEMENT = "//*[@resource-id='org.wikipedia:id/page_results_list']//*[@resource-id='org.wikipedia:id/page_list_item_container']",
+        SEARCH_RESULT_ELEMENT = "//*[@resource-id='org.wikipedia:id/page_list_item_container']",
         SEARCH_EMPTY_RESULT_ELEMENT = "//*[@text='No results found']";
 
 
@@ -43,6 +43,18 @@ public class SearchPageObject extends MainPageObject {
     public void waitForCancelButtonToDisappear(){
         this.waitForElementNotPresent(By.xpath(SEARCH_CANCEL_BUTTON),
                 "Search cancel button is still present!",
+                5);
+    }
+
+    public void waitForResultToDisappear(){
+        this.waitForElementNotPresent(By.xpath(SEARCH_RESULT_ELEMENT),
+                "Result list is still present!",
+                5);
+    }
+
+    public void waitForResultToAppear(){
+        this.waitForElementPresent(By.xpath(SEARCH_RESULT_ELEMENT),
+                "Result list is not present!",
                 5);
     }
 

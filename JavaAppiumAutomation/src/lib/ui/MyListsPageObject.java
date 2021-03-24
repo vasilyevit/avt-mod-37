@@ -22,21 +22,21 @@ public class MyListsPageObject extends MainPageObject {
 
     public void openFolderByName(String name_of_folder){
         this.waitForElementAndClick(
-                By.xpath("//*[@text='" + getFolderXpathByName(name_of_folder) + "']"),
+                By.xpath(getFolderXpathByName(name_of_folder)),
                 "Cannot find folder by name " + name_of_folder,
                 5);
     }
 
     public void waitForArticleToAppearByTitle(String article_title){
         this.waitForElementPresent(
-                By.xpath("//*[@text='" + getSavedArticleXpathByTitle(article_title) + "']"),
+                By.xpath(getSavedArticleXpathByTitle(article_title)),
                 "Cannot find saved article by title " + article_title,
                 15);
     }
 
     public void waitForArticleToDisappearByTitle(String article_title){
         this.waitForElementNotPresent(
-                By.xpath("//*[@text='" + getSavedArticleXpathByTitle(article_title) + "']"),
+                By.xpath(getSavedArticleXpathByTitle(article_title)),
                 "Saved article still present with title " + article_title,
                 15);
     }
@@ -44,7 +44,7 @@ public class MyListsPageObject extends MainPageObject {
     public void swipeByArticleToDelete(String article_title){
         this.waitForArticleToAppearByTitle(article_title);
         this.swipeElementToLeft(
-                By.xpath("//*[@text='" + getSavedArticleXpathByTitle(article_title) + "']"),
+                By.xpath(getSavedArticleXpathByTitle(article_title)),
                 "Cannot find saved article"
         );
         this.waitForArticleToDisappearByTitle(article_title);
