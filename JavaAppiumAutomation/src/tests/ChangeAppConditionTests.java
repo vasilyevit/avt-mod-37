@@ -5,6 +5,8 @@ import lib.ui.ArticlePageObject;
 import lib.ui.SearchPageObject;
 import org.junit.Test;
 
+import java.time.Duration;
+
 public class ChangeAppConditionTests extends CoreTestCase {
 
     @Test
@@ -41,7 +43,7 @@ public class ChangeAppConditionTests extends CoreTestCase {
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine("java");
         searchPageObject.waitForSearchResult("Object-oriented programming language");
-        this.backgroundApp(2);
+        this.backgroundApp(Duration.ofSeconds(2));
         searchPageObject.waitForSearchResult("Object-oriented programming language");
     }
 }

@@ -6,13 +6,13 @@ import org.openqa.selenium.By;
 public class SearchPageObject extends MainPageObject {
 
     private static final String
-        SEARCH_INIT_ELEMENT = "//*[contains(@text,'Search Wikipedia')]",
-        SEARCH_INPUT = "//*[contains(@text,'Search…')]",
-        SEARCH_CANCEL_BUTTON = "//*[@resource-id='org.wikipedia:id/search_close_btn']",
-        SEARCH_RESULT_BY_SUBSTRING_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[contains(@text,'{SUBSTRING}')]",
-        SEARCH_RESULT_TITLE_AND_DESCRIPTION_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_title' and @text='{TITLE}']/../*[@resource-id='org.wikipedia:id/page_list_item_description' and @text='{DESCRIPTION}']",
-        SEARCH_RESULT_ELEMENT = "//*[@resource-id='org.wikipedia:id/page_list_item_container']",
-        SEARCH_EMPTY_RESULT_ELEMENT = "//*[@text='No results found']";
+        SEARCH_INIT_ELEMENT = "xpath://*[contains(@text,'Search Wikipedia')]",
+        SEARCH_INPUT = "xpath://*[contains(@text,'Search…')]",
+        SEARCH_CANCEL_BUTTON = "xpath://*[@resource-id='org.wikipedia:id/search_close_btn']",
+        SEARCH_RESULT_BY_SUBSTRING_TPL = "xpath://*[@resource-id='org.wikipedia:id/page_list_item_container']//*[contains(@text,'{SUBSTRING}')]",
+        SEARCH_RESULT_TITLE_AND_DESCRIPTION_TPL = "xpath://*[@resource-id='org.wikipedia:id/page_list_item_title' and @text='{TITLE}']/../*[@resource-id='org.wikipedia:id/page_list_item_description' and @text='{DESCRIPTION}']",
+        SEARCH_RESULT_ELEMENT = "xpath://*[@resource-id='org.wikipedia:id/page_list_item_container']",
+        SEARCH_EMPTY_RESULT_ELEMENT = "xpath://*[@text='No results found']";
 
 
     public SearchPageObject(AppiumDriver driver) {
@@ -31,47 +31,47 @@ public class SearchPageObject extends MainPageObject {
 
     public void initSearchInput(){
         this.waitForElementAndClick(
-                By.xpath(SEARCH_INIT_ELEMENT),
+                SEARCH_INIT_ELEMENT,
                 "Cannot find and click search init element",
                 5);
         this.waitForElementPresent(
-                By.xpath(SEARCH_INPUT),
+                SEARCH_INPUT,
                 "Cannot search input after clicking search init element");
     }
 
     public void waitForCancelButtonToAppear(){
-        this.waitForElementPresent(By.xpath(SEARCH_CANCEL_BUTTON),
+        this.waitForElementPresent(SEARCH_CANCEL_BUTTON,
                 "Cannot search cancel button!",
                 5);
     }
 
     public void waitForCancelButtonToDisappear(){
-        this.waitForElementNotPresent(By.xpath(SEARCH_CANCEL_BUTTON),
+        this.waitForElementNotPresent(SEARCH_CANCEL_BUTTON,
                 "Search cancel button is still present!",
                 5);
     }
 
     public void waitForResultToDisappear(){
-        this.waitForElementNotPresent(By.xpath(SEARCH_RESULT_ELEMENT),
+        this.waitForElementNotPresent(SEARCH_RESULT_ELEMENT,
                 "Result list is still present!",
                 5);
     }
 
     public void waitForResultToAppear(){
-        this.waitForElementPresent(By.xpath(SEARCH_RESULT_ELEMENT),
+        this.waitForElementPresent(SEARCH_RESULT_ELEMENT,
                 "Result list is not present!",
                 5);
     }
 
     public void clickCancelSearch(){
-        this.waitForElementAndClick(By.xpath(SEARCH_CANCEL_BUTTON),
+        this.waitForElementAndClick(SEARCH_CANCEL_BUTTON,
                 "Cannot find and click search cancel button!",
                 5);
     }
 
     public void typeSearchLine(String searchLine){
         this.waitForElementAndSendKeys(
-                By.xpath(SEARCH_INPUT),
+                SEARCH_INPUT,
                 searchLine,
                 "Cannot find and type into search input",
                 5);
@@ -79,44 +79,44 @@ public class SearchPageObject extends MainPageObject {
 
     public void waitForSearchResult(String substring){
         this.waitForElementPresent(
-                By.xpath(getResultSearchElement(substring)),
+                getResultSearchElement(substring),
                 "Cannot find search result with substring " + substring);
     }
 
     public void waitForElementByTitleAndDescription(String title, String description){
         this.waitForElementPresent(
-                By.xpath(getResultSearchElementByByTitleAndDescription(title, description)),
+                getResultSearchElementByByTitleAndDescription(title, description),
                 "Cannot find search result with Title '" + title + "' and Description '" + description + "'!");
     }
 
     public void clickByArticleWithSubstring(String substring){
         this.waitForElementAndClick(
-                By.xpath(getResultSearchElement(substring)),
+                getResultSearchElement(substring),
                 "Cannot find and click search result with substring " + substring,
                 5);
     }
 
     public int getAmountOfFoundArticles(){
         this.waitForElementPresent(
-                By.xpath(SEARCH_RESULT_ELEMENT),
+                SEARCH_RESULT_ELEMENT,
                 "Cannot find empty result label by the request",
                 15
         );
         return this.getAmountOfElements(
-                By.xpath(SEARCH_RESULT_ELEMENT)
+                SEARCH_RESULT_ELEMENT
         );
     }
 
     public void waitForEmptyResultLabel(){
         this.waitForElementPresent(
-                By.xpath(SEARCH_EMPTY_RESULT_ELEMENT),
+                SEARCH_EMPTY_RESULT_ELEMENT,
                 "Cannot find empty result element",
                 15);
     }
 
     public void assertThereIsResultOfSearch(){
         this.assertElementNotPresent(
-                By.xpath(SEARCH_RESULT_ELEMENT),
+                SEARCH_RESULT_ELEMENT,
                 "We supposed not to find any results");
     }
 }

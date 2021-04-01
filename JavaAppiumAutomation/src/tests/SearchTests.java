@@ -25,8 +25,6 @@ public class SearchTests extends CoreTestCase {
         searchPageObject.waitForCancelButtonToDisappear();
     }
 
-
-
     @Test
     public void testAmountOfNotEmptySearch(){
         SearchPageObject searchPageObject = new SearchPageObject(driver);
