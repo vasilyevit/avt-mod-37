@@ -2,7 +2,6 @@ package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
 import lib.Platform;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 abstract public class ArticlePageObject extends MainPageObject {
@@ -16,7 +15,8 @@ abstract public class ArticlePageObject extends MainPageObject {
         MY_LIST_NAME_INPUT,
         MY_LIST_OK_BUTTON,
         CLOSE_ARTICLE_BUTTON,
-        FOLDER_NAME_ELEMENT_TPL;
+        FOLDER_NAME_ELEMENT_TPL,
+        PLACES_AUTH_CLOSE;
 
 
     public ArticlePageObject(AppiumDriver driver) {
@@ -27,9 +27,20 @@ abstract public class ArticlePageObject extends MainPageObject {
         return FOLDER_NAME_ELEMENT_TPL.replace("{NAMEFOLDER}",folder_name);
     }
 
+    private static String getTitleElement(String title){
+        return TITLE.replace("{TITLE}", title);
+    }
+
     public WebElement waitForTitleElement(){
         return this.waitForElementPresent(
                 TITLE,
+                "Cannot find article title on page!",
+                5);
+    }
+
+    public WebElement waitForTitleElement(String title){
+        return this.waitForElementPresent(
+                getTitleElement(title),
                 "Cannot find article title on page!",
                 5);
     }
@@ -108,8 +119,14 @@ abstract public class ArticlePageObject extends MainPageObject {
 
     public void addArticleToMySaved(){
         this.waitForElementAndClick(OPTIONS_ADD_TO_MY_LIST_BUTTON,
-                "Cannot find option to add aticle to reading list",
+                "Cannot find option to add article to reading list",
                 5);
+    }
+
+    public void closeAuthModalForm(){
+        this.waitForElementAndClick(PLACES_AUTH_CLOSE,
+                "Cannot find places auth close",
+                20);
     }
 
     public void closeArticle(){

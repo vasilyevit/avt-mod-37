@@ -1,7 +1,6 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
-import org.openqa.selenium.By;
 
 abstract public class SearchPageObject extends MainPageObject {
 
@@ -12,7 +11,8 @@ abstract public class SearchPageObject extends MainPageObject {
         SEARCH_RESULT_BY_SUBSTRING_TPL,
         SEARCH_RESULT_TITLE_AND_DESCRIPTION_TPL,
         SEARCH_RESULT_ELEMENT,
-        SEARCH_EMPTY_RESULT_ELEMENT;
+        SEARCH_EMPTY_RESULT_ELEMENT,
+        SEARCH_CLEAR_BUTTON;
 
 
     public SearchPageObject(AppiumDriver driver) {
@@ -69,6 +69,12 @@ abstract public class SearchPageObject extends MainPageObject {
                 5);
     }
 
+    public void clickClearSearch(){
+        this.waitForElementAndClick(SEARCH_CLEAR_BUTTON,
+                "Cannot find and click search clear button!",
+                5);
+    }
+
     public void typeSearchLine(String searchLine){
         this.waitForElementAndSendKeys(
                 SEARCH_INPUT,
@@ -93,7 +99,7 @@ abstract public class SearchPageObject extends MainPageObject {
         this.waitForElementAndClick(
                 getResultSearchElement(substring),
                 "Cannot find and click search result with substring " + substring,
-                5);
+                15);
     }
 
     public int getAmountOfFoundArticles(){

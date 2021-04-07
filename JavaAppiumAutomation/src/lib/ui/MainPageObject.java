@@ -9,6 +9,7 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -46,8 +47,8 @@ public class MainPageObject {
     }
 
     public WebElement waitForElementAndSendKeys(String locator, String value, String error_message, long timeoutInSeconds){
-        WebElement element = waitForElementPresent(locator, error_message, timeoutInSeconds);
-        element.sendKeys(value);
+         WebElement element = waitForElementPresent(locator, error_message, timeoutInSeconds);
+         new Actions(driver).moveToElement(element).pause(2000).sendKeys(value).perform();
         return element;
     }
 

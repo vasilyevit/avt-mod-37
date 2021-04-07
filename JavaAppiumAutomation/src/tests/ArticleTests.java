@@ -52,21 +52,34 @@ public class ArticleTests extends CoreTestCase {
         searchPageObject.clickByArticleWithSubstring("Object-oriented programming language");
 
         ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
-        articlePageObject.waitForTitleElement();
+        if (Platform.getInstance().isAndroid()){
+            articlePageObject.waitForTitleElement();
+        } else {
+            articlePageObject.waitForTitleElement("Java (programming language)");
+        }
+
         String name_of_folder = "Ex5";
 
         if (Platform.getInstance().isAndroid()){
             articlePageObject.addArticleToMyList(name_of_folder);
         } else {
             articlePageObject.addArticleToMySaved();
+            articlePageObject.closeAuthModalForm();
         }
         articlePageObject.closeArticle();
 
         searchPageObject.initSearchInput();
+        if (Platform.getInstance().isIOS()){
+            searchPageObject.clickClearSearch();
+        }
         searchPageObject.typeSearchLine("Appium");
         searchPageObject.clickByArticleWithSubstring("Appium");
 
-        articlePageObject.waitForTitleElement();
+        if (Platform.getInstance().isAndroid()){
+            articlePageObject.waitForTitleElement();
+        } else {
+            articlePageObject.waitForTitleElement("Appium");
+        }
         if (Platform.getInstance().isAndroid()){
             articlePageObject.addAdditionalArticleToMyList(name_of_folder);
         } else {
