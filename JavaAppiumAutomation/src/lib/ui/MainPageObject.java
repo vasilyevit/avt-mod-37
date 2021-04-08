@@ -48,7 +48,7 @@ public class MainPageObject {
 
     public WebElement waitForElementAndSendKeys(String locator, String value, String error_message, long timeoutInSeconds){
          WebElement element = waitForElementPresent(locator, error_message, timeoutInSeconds);
-         new Actions(driver).moveToElement(element).pause(2000).sendKeys(value).perform();
+         new Actions(driver).moveToElement(element).pause(2000).click().pause(2000).sendKeys(value).release().perform();
         return element;
     }
 

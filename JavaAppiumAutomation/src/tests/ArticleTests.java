@@ -95,7 +95,14 @@ public class ArticleTests extends CoreTestCase {
             myListsPageObject.openFolderByName(name_of_folder);
         }
         myListsPageObject.swipeByArticleToDelete("Java (programming language)");
-        myListsPageObject.waitForArticleToAppearByTitle("Appium");
+        if (Platform.getInstance().isAndroid()) {
+            myListsPageObject.waitForArticleToAppearByTitle("Appium");
+        } else {
+            myListsPageObject.typeSearchLine("Appium");
+            assertEquals("As a result, only one saved reading link should be found",
+                    1,
+                    myListsPageObject.getSearchResultCount());
+        }
     }
 
     @Test

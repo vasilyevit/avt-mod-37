@@ -6,7 +6,9 @@ import lib.Platform;
 abstract public class MyListsPageObject extends MainPageObject {
     protected static String
             FOLDER_BY_NAME_TPL,
-            ARTICLE_BY_TITLE_TPL;
+            ARTICLE_BY_TITLE_TPL,
+            SEARCH_FIELD,
+            RESULT_SEARCH_LIST;
 
     private static String getFolderXpathByName(String name_of_folder){
        return FOLDER_BY_NAME_TPL.replace("{FOLDER_NAME}", name_of_folder);
@@ -39,6 +41,18 @@ abstract public class MyListsPageObject extends MainPageObject {
                 getSavedArticleXpathByTitle(article_title),
                 "Saved article still present with title " + article_title,
                 15);
+    }
+
+    public void typeSearchLine(String searchLine){
+        this.waitForElementAndSendKeys(
+                SEARCH_FIELD,
+                searchLine,
+                "Cannot find and type into search field",
+                5);
+    }
+
+    public int getSearchResultCount(){
+        return getAmountOfElements(RESULT_SEARCH_LIST);
     }
 
     public void swipeByArticleToDelete(String article_title){
