@@ -71,12 +71,7 @@ public class SearchTests extends CoreTestCase {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
 
         searchPageObject.initSearchInput();
-        String search_line = "Java";
-        searchPageObject.typeSearchLine(search_line);
-        int amount_of_search_results = searchPageObject.getAmountOfFoundArticles();
-        assertTrue(
-                "There should be several articles",
-                amount_of_search_results > 2);
+        searchPageObject.typeSearchLine("Java");
         searchPageObject.waitForElementByTitleAndDescription("Java", "Island of Indonesia");
         searchPageObject.waitForElementByTitleAndDescription("Java (programming language)", "Object-oriented programming language");
         searchPageObject.waitForElementByTitleAndDescription("JavaScript", "Programming language");
