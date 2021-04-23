@@ -160,7 +160,7 @@ abstract public class ArticlePageObject extends MainPageObject {
                     5);
             this.waitForElementPresent(OPTIONS_ADD_TO_MY_LIST_BUTTON,
                     "Cannot find button to add an article to saved list after removing it from list before",
-                    5);
+                    10);
         }
 
      }

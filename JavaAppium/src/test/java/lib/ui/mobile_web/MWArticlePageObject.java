@@ -8,7 +8,7 @@ public class MWArticlePageObject extends ArticlePageObject {
     static {
         TITLE = "xpath://h1[@id='section_0']";
         FOOTER_ELEMENT = "id:footer-places";
-        OPTIONS_ADD_TO_MY_LIST_BUTTON = "xpath://a[contains(@href,'action=watch')]";
+        OPTIONS_ADD_TO_MY_LIST_BUTTON = "xpath://a[@id='ca-watch' and not(contains(@class,'watched'))]";
         OPTIONS_REMOVE_FROM_MY_LIST_BUTTON = "xpath://a[contains(@href,'action=unwatch')]";
     }
 

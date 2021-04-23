@@ -1,5 +1,6 @@
 package lib.ui;
 
+import lib.Platform;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 abstract public class SearchPageObject extends MainPageObject {
@@ -11,6 +12,7 @@ abstract public class SearchPageObject extends MainPageObject {
         SEARCH_RESULT_BY_SUBSTRING_TPL,
         SEARCH_RESULT_TITLE_AND_DESCRIPTION_TPL,
         SEARCH_RESULT_ELEMENT,
+        SEARCH_RESULT_ELEMENT_SAVED_TPL,
         SEARCH_EMPTY_RESULT_ELEMENT,
         SEARCH_CLEAR_BUTTON;
 
@@ -22,6 +24,9 @@ abstract public class SearchPageObject extends MainPageObject {
     /* TEMPLATES METHODS */
     private static String getResultSearchElement(String substring){
         return SEARCH_RESULT_BY_SUBSTRING_TPL.replace("{SUBSTRING}",substring);
+    }
+    private static String getResultSearchElementSaved(String substring){
+        return SEARCH_RESULT_ELEMENT_SAVED_TPL.replace("{TITLE}",substring);
     }
 
     private static String getResultSearchElementByByTitleAndDescription(String title, String description){
@@ -93,6 +98,12 @@ abstract public class SearchPageObject extends MainPageObject {
                 "Cannot find search result with substring " + substring);
     }
 
+    public void waitForSearchResultSaved(String substring){
+        this.waitForElementPresent(
+                getResultSearchElementSaved(substring),
+                "Cannot find search Saved result with title " + substring);
+    }
+
     public void waitForElementByTitleAndDescription(String title, String description){
         this.waitForElementPresent(
                 getResultSearchElementByByTitleAndDescription(title, description),
@@ -128,5 +139,16 @@ abstract public class SearchPageObject extends MainPageObject {
         this.assertElementNotPresent(
                 SEARCH_RESULT_ELEMENT,
                 "We supposed not to find any results");
+    }
+
+    public void isSearchElementSaved(String title){
+        if (Platform.getInstance().isMw()) {
+            this.initSearchInput();
+            this.typeSearchLine(title);
+            this.waitForSearchResultSaved(title);
+        } else {
+            System.out.println("Method isSearchElementSaved() does nothing for platform"
+                    + Platform.getInstance().getPlatformVar());
+        }
     }
 }

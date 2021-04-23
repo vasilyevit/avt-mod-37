@@ -14,6 +14,7 @@ public class MWSearchPageObject extends SearchPageObject {
         SEARCH_RESULT_ELEMENT ="xpath://div[contains(@class,'results-list-container')]/ul/li";
         SEARCH_EMPTY_RESULT_ELEMENT ="xpath://*[text()='No page with this title.']";
         SEARCH_CLEAR_BUTTON = "xpath://*[text()='Clear']";
+        SEARCH_RESULT_ELEMENT_SAVED_TPL = "xpath://div[contains(@class,'results-list-container')]/ul/li[contains(@title,'{TITLE}')]/../..//a[contains(@href,'unwatch')]";
     }
 
     public MWSearchPageObject(RemoteWebDriver driver) {

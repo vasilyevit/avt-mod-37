@@ -2,10 +2,7 @@ package tests;
 
 import lib.CoreTestCase;
 import lib.Platform;
-import lib.ui.ArticlePageObject;
-import lib.ui.MyListsPageObject;
-import lib.ui.NavigationUI;
-import lib.ui.SearchPageObject;
+import lib.ui.*;
 import lib.ui.factories.ArticlePageObjectFactory;
 import lib.ui.factories.MyListsPageObjectFactory;
 import lib.ui.factories.NavigationUIFactory;
@@ -73,7 +70,21 @@ public class ArticleTests extends CoreTestCase {
             articlePageObject.addArticleToMyList(name_of_folder);
         } else {
             articlePageObject.addArticleToMySaved();
-            articlePageObject.closeAuthModalForm();
+            if (Platform.getInstance().isIOS()) {
+                articlePageObject.closeAuthModalForm();
+            }
+        }
+        if (Platform.getInstance().isMw()) {
+            AuthorizationPageObject auth = new AuthorizationPageObject(driver);
+            auth.clickAuthButton();
+            auth.enterLoginData("Vasilyevit","C00851097");
+            auth.submitForm();
+            articlePageObject.waitForTitleElement();
+
+            assertEquals("We are not on the same page after login",
+                    "Java (programming language)",
+                    articlePageObject.getArticleTitle());
+            articlePageObject.addArticleToMySaved();
         }
         articlePageObject.closeArticle();
 
@@ -81,13 +92,13 @@ public class ArticleTests extends CoreTestCase {
         if (Platform.getInstance().isIOS()){
             searchPageObject.clickClearSearch();
         }
-        searchPageObject.typeSearchLine("Appium");
-        searchPageObject.clickByArticleWithSubstring("Appium");
+        searchPageObject.typeSearchLine("PHP");
+        searchPageObject.clickByArticleWithSubstring("Server-side scripting language created in 1994");
 
         if (Platform.getInstance().isAndroid()){
             articlePageObject.waitForTitleElement();
         } else {
-            articlePageObject.waitForTitleElement("Appium");
+            articlePageObject.waitForTitleElement("PHP");
         }
         if (Platform.getInstance().isAndroid()){
             articlePageObject.addAdditionalArticleToMyList(name_of_folder);
@@ -97,6 +108,7 @@ public class ArticleTests extends CoreTestCase {
         articlePageObject.closeArticle();
 
         NavigationUI navigationUI = NavigationUIFactory.get(driver);
+        navigationUI.openNavigation();
         navigationUI.clickMyLists();
 
         MyListsPageObject myListsPageObject = MyListsPageObjectFactory.get(driver);
@@ -105,12 +117,14 @@ public class ArticleTests extends CoreTestCase {
         }
         myListsPageObject.swipeByArticleToDelete("Java (programming language)");
         if (Platform.getInstance().isAndroid()) {
-            myListsPageObject.waitForArticleToAppearByTitle("Appium");
-        } else {
-            myListsPageObject.typeSearchLine("Appium");
+            myListsPageObject.waitForArticleToAppearByTitle("PHP");
+        } else if (Platform.getInstance().isIOS()){
+            myListsPageObject.typeSearchLine("PHP");
             assertEquals("As a result, only one saved reading link should be found",
                     1,
                     myListsPageObject.getSearchResultCount());
+        } else {
+            searchPageObject.isSearchElementSaved("PHP");
         }
     }
 
