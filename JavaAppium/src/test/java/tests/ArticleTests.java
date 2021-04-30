@@ -1,5 +1,7 @@
 package tests;
 
+import io.qameta.allure.*;
+import io.qameta.allure.junit4.DisplayName;
 import lib.CoreTestCase;
 import lib.Platform;
 import lib.ui.*;
@@ -9,9 +11,17 @@ import lib.ui.factories.NavigationUIFactory;
 import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
+@Epic("Test for articles")
 public class ArticleTests extends CoreTestCase {
 
     @Test
+    @Features(value = {@Feature(value="Search"),@Feature(value="Article")})
+    @DisplayName("Compare article title with expected one")
+    @Description("We open 'Java Object-oriented programming language' article and make sure title expected")
+    @Step("Starting test testCompareArticleTitle")
+    @Severity(value = SeverityLevel.BLOCKER)
     public void testCompareArticleTitle(){
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
 
@@ -32,6 +42,11 @@ public class ArticleTests extends CoreTestCase {
     }
 
     @Test
+    @Features(value = {@Feature(value="Search"),@Feature(value="Article")})
+    @DisplayName("Swipe article to the footer")
+    @Description("We open an article and swipe it to the footer")
+    @Step("Starting test testSwipeArticle")
+    @Severity(value = SeverityLevel.MINOR)
     public void testSwipeArticle(){
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
 
@@ -50,6 +65,11 @@ public class ArticleTests extends CoreTestCase {
     }
 
     @Test
+    @Features(value = {@Feature(value="Search"),@Feature(value="Article"),@Feature(value="Delete"),@Feature(value="Saved")})
+    @DisplayName("Preservation of two articles")
+    @Description("We keep two articles and delete one")
+    @Step("Starting test testSaveTwoArticlesEx5")
+    @Severity(value = SeverityLevel.NORMAL)
     public void testSaveTwoArticlesEx5(){
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
 
@@ -129,6 +149,11 @@ public class ArticleTests extends CoreTestCase {
     }
 
     @Test
+    @Features(value = {@Feature(value="Search"),@Feature(value="Article")})
+    @DisplayName("Assert title")
+    @Description("We open the article and make sure it has a title element")
+    @Step("Starting test testAssertTitleEx6")
+    @Severity(value = SeverityLevel.NORMAL)
     public void testAssertTitleEx6(){
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();

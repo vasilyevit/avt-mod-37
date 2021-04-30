@@ -1,5 +1,7 @@
 package tests;
 
+import io.qameta.allure.*;
+import io.qameta.allure.junit4.DisplayName;
 import lib.CoreTestCase;
 import lib.Platform;
 import lib.ui.ArticlePageObject;
@@ -10,9 +12,17 @@ import org.junit.Test;
 
 import java.time.Duration;
 
+import static org.junit.Assert.assertEquals;
+
+@Epic("Test for app conditions")
 public class ChangeAppConditionTests extends CoreTestCase {
 
     @Test
+    @Features(value = {@Feature(value="Search"),@Feature(value="Article"),@Feature(value="Orientation")})
+    @DisplayName("Change screen orientation on search results")
+    @Description("We check the title of the article before and after the coup")
+    @Step("Starting test testChangeScreenOrientationOnSearchResults")
+    @Severity(value = SeverityLevel.CRITICAL)
     public void testChangeScreenOrientationOnSearchResults(){
         if (Platform.getInstance().isMw()){
             return;
@@ -43,6 +53,11 @@ public class ChangeAppConditionTests extends CoreTestCase {
     }
 
     @Test
+    @Features(value = {@Feature(value="Search"),@Feature(value="Article"),@Feature(value="Background")})
+    @DisplayName("Check search article in background")
+    @Description("We find the article collapse and expand the application")
+    @Step("Starting test testCheckSearchArticleInBackground")
+    @Severity(value = SeverityLevel.CRITICAL)
     public void testCheckSearchArticleInBackground(){
         if (Platform.getInstance().isMw()){
             return;

@@ -1,6 +1,7 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import io.qameta.allure.Step;
 import lib.Platform;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -33,6 +34,7 @@ abstract public class ArticlePageObject extends MainPageObject {
         return TITLE.replace("{TITLE}", title);
     }
 
+    @Step("Waiting for title on the article page")
     public WebElement waitForTitleElement(){
         return this.waitForElementPresent(
                 TITLE,
@@ -47,6 +49,7 @@ abstract public class ArticlePageObject extends MainPageObject {
                 5);
     }
 
+    @Step("Get article title")
     public String getArticleTitle(){
         WebElement titleElement = waitForTitleElement();
         if (Platform.getInstance().isAndroid()){
@@ -58,6 +61,7 @@ abstract public class ArticlePageObject extends MainPageObject {
         }
     }
 
+    @Step("Swipe to footer on article page")
     public void swipeToFooter(){
         if (Platform.getInstance().isAndroid()){
             this.swipeUpToFindElement(
@@ -76,6 +80,7 @@ abstract public class ArticlePageObject extends MainPageObject {
 
     }
 
+    @Step("Adding the article to my list")
     public void addArticleToMyList(String name_of_folder){
         this.waitForElementAndClick(
                 OPTIONS_BUTTON,
@@ -125,6 +130,7 @@ abstract public class ArticlePageObject extends MainPageObject {
                 5);
     }
 
+    @Step("Adding the article to my saved articles")
     public void addArticleToMySaved(){
         if (Platform.getInstance().isMw()){
             this.removeArticleFromSavedIfItAdded();
@@ -140,6 +146,7 @@ abstract public class ArticlePageObject extends MainPageObject {
                 20);
     }
 
+    @Step("Closing the article")
     public void closeArticle(){
          if (Platform.getInstance().isMw()){
              System.out.println("Method closeArticle() does nothing for platform"
@@ -152,6 +159,7 @@ abstract public class ArticlePageObject extends MainPageObject {
          }
      }
 
+     @Step("Removing the article for saved if it has been added")
      public void removeArticleFromSavedIfItAdded(){
          try {Thread.sleep(3000);} catch (Exception ignored) {}
         if (this.isElementPresent(OPTIONS_REMOVE_FROM_MY_LIST_BUTTON)){
